@@ -28,11 +28,11 @@ function runDocker {
     > /var/log/docker.log 2>&1 < /dev/null &
 
     until dockerReady ; do
-        sleep 1
+        sleep 0.2
     done
 }
 
-K3S_NAME=$(hostname)
+K3S_NAME=${K3S_API_HOST}
 K3S_ARGS=( \
     --no-deploy=traefik \
     --docker \
@@ -61,6 +61,9 @@ function waitForKubeconfig {
 
     echo "${cfg}" > /tmp/kubeconfig
     mv /tmp/kubeconfig /kubeconfig
+
+	mkdir /config
+	cp /kubeconfig /config/kubeconfig
 }
 
 
@@ -76,5 +79,4 @@ waitForKubeconfig
 touch /minikube_startup_complete
 echo Kubeconfig is ready
 
-# Put the tail of logs in the foreground to keep the container running
-wait $child
+config-server
