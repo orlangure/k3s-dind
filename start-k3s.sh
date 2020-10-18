@@ -32,6 +32,11 @@ function runDocker {
     done
 }
 
+# DOCKER_HOST is how the host machine can be accessed from inside a container.
+# It is important to add this address to SAN to allow accessing this container
+# from another container using host port binding
+DOCKER_HOST=`/sbin/ip route|awk '/default/ { print $3 }'`
+
 K3S_NAME=${K3S_API_HOST}
 K3S_ARGS=( \
     --no-deploy=traefik \
@@ -39,6 +44,7 @@ K3S_ARGS=( \
     --https-listen-port=${K3S_API_PORT:-8443} \
     --node-name=${K3S_NAME} \
     --tls-san=${K3S_NAME} \
+    --tls-san=${DOCKER_HOST} \
 )
 
 function runServer {
