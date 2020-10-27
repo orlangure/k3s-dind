@@ -9,7 +9,7 @@ RUN CGO_ENABLED=0 go build -o /config-server .
 
 FROM docker:19.03.7-dind
 
-ENV K3S_VERSION="v1.17.6%2Bk3s1"
+ENV K3S_VERSION="v1.17.7%2Bk3s1"
 
 ADD https://github.com/rancher/k3s/releases/download/${K3S_VERSION}/k3s /usr/local/bin/k3s
 COPY kubectl start-k3s.sh get-kubeconfig.sh /usr/local/bin/
