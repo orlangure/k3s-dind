@@ -53,7 +53,7 @@ function runServer {
 
 function getKubeconfig {
     local cfg=$(cat /etc/rancher/k3s/k3s.yaml)
-    if [[ $cfg =~ password ]]; then
+    if [[ $cfg =~ server ]]; then
         echo "${cfg}" | sed 's/\/\/127.0.0.1:/\/\/'"${K3S_NAME}"':/'
     fi
 }
